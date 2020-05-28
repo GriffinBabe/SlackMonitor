@@ -1,32 +1,33 @@
-package eu.bestbrusselsulb;
+package eu.bestbrusselsulb.model;
 
 
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.jetty.SlackAppServer;
 import com.slack.api.model.event.ChannelCreatedEvent;
 import com.slack.api.model.event.MessageEvent;
-import eu.bestbrusselsulb.controller.ChannelController;
-import eu.bestbrusselsulb.controller.HelloCommandController;
-import eu.bestbrusselsulb.controller.MessageController;
+import com.slack.api.model.event.ReactionAddedEvent;
+import eu.bestbrusselsulb.model.handlers.NewConversationHandler;
+import eu.bestbrusselsulb.model.handlers.NewMessageHandler;
+import eu.bestbrusselsulb.model.handlers.ReactionHandler;
 
 public class SlackMonitor {
 
     private App app = null;
     private SlackAppServer server = null;
 
-    private HelloCommandController helloController;
-    private MessageController messageController;
-    private ChannelController channelController;
+    private NewMessageHandler newMessageController;
+    private NewConversationHandler channelController;
+    private ReactionHandler reactionController;
 
     public SlackMonitor() {
         this.initControllers();
         this.app = new App();
 
-        this.app.command("/hello", this.helloController);
-
-        this.app.event(MessageEvent.class, this.messageController);
+        this.app.event(MessageEvent.class, this.newMessageController);
 
         this.app.event(ChannelCreatedEvent.class, this.channelController);
+
+        this.app.event(ReactionAddedEvent.class, this.reactionController);
 
         this.server = new SlackAppServer(app);
 
@@ -38,9 +39,9 @@ public class SlackMonitor {
     }
 
     private void initControllers() {
-        this.helloController = new HelloCommandController();
-        this.messageController = new MessageController();
-        this.channelController = new ChannelController();
+        this.newMessageController = new NewMessageHandler();
+        this.channelController = new NewConversationHandler();
+        this.reactionController = new ReactionHandler();
     }
 
     public static void main(String[] args) {

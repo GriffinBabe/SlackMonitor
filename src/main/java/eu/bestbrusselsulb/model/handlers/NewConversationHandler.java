@@ -1,4 +1,4 @@
-package eu.bestbrusselsulb.controller;
+package eu.bestbrusselsulb.model.handlers;
 
 import com.slack.api.app_backend.events.payload.EventsApiPayload;
 import com.slack.api.bolt.context.builtin.EventContext;
@@ -9,7 +9,7 @@ import com.slack.api.model.event.ChannelCreatedEvent;
 
 import java.io.IOException;
 
-public class ChannelController extends EventController {
+public class NewConversationHandler extends EventHandler {
     @Override
     public Response apply(EventsApiPayload event, EventContext context) throws IOException, SlackApiException {
         ChannelCreatedEvent ev =(ChannelCreatedEvent) event.getEvent();

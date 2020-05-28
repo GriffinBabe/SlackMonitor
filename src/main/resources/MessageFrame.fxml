@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane maxWidth="-Infinity" prefHeight="250.0" prefWidth="600.0" styleClass="message-frame" stylesheets="Stylesheet.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.bestbrusselsulb.view.MessageFrameView">
+   <children>
+      <WebView fx:id="webView" layoutX="16.0" layoutY="116.0" maxHeight="-1.0" prefHeight="134.0" prefWidth="565.0" />
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="600.0" style="-fx-background-color: #eb9834;">
+         <children>
+            <ImageView fx:id="avatar" fitHeight="64.0" fitWidth="64.0" layoutX="14.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="18.0">
+               <image>
+                  <Image url="@default_avatar.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="username" layoutX="100.0" layoutY="18.0" text="darius.couchard" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="18.0">
+               <font>
+                  <Font name="Century Gothic Bold" size="22.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="100.0" layoutY="54.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="54.0">
+               <image>
+                  <Image url="@message_icon.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="channel" layoutX="146.0" layoutY="57.0" text="#bullshit">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
