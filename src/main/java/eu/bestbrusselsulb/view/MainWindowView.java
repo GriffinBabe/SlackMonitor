@@ -8,11 +8,12 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -32,12 +33,6 @@ public class MainWindowView extends EventEmitter implements Initializable {
     private Label clock;
 
     @FXML
-    private Region topBar;
-
-    @FXML
-    private Label quitButton;
-
-    @FXML
     private VBox messageList;
 
     @FXML
@@ -47,7 +42,8 @@ public class MainWindowView extends EventEmitter implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Controller called");
         bindToTime();
-        setCross();
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
 
         /* Add placeholder message */
         try {
@@ -55,6 +51,7 @@ public class MainWindowView extends EventEmitter implements Initializable {
             loader.setLocation(MonitorApplication.class.getResource("/MessageFrame.fxml"));
             AnchorPane message = loader.load();
             messageList.getChildren().add(message);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,22 +64,6 @@ public class MainWindowView extends EventEmitter implements Initializable {
 
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
-    }
-
-    private void setCross() {
-        quitButton.setOnMouseEntered(event -> {
-            quitButton.setStyle("-fx-text-fill: #ffffff");
-        });
-        quitButton.setOnMouseExited(event -> {
-            quitButton.setStyle("-fx-text-fill: black");
-        });
-        quitButton.setOnMouseClicked(event -> {
-            emit(EventType.QUIT_COMMAND);
-        });
-    }
-
-    public Region getTopBar() {
-        return topBar;
     }
 
 }

@@ -32,7 +32,6 @@ public class MonitorApplication extends Application implements EventListener {
 
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Slack Monitor");
-        this.primaryStage.initStyle(StageStyle.UNDECORATED);
 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/MainWindow.fxml"));
@@ -42,21 +41,14 @@ public class MonitorApplication extends Application implements EventListener {
 
         applicationView.addListener(this);
 
-        Region bar = applicationView.getTopBar();
-
-        bar.setOnMousePressed(event -> {
-            xOffset = primaryStage.getX() - event.getScreenX();
-            yOffset = primaryStage.getY() - event.getScreenY();
-        });
-
-        bar.setOnMouseDragged(event -> {
-            primaryStage.setX(event.getScreenX() + xOffset);
-            primaryStage.setY(event.getScreenY() + yOffset);
-        });
-
         Scene scene = new Scene(primaryStageLayout);
         primaryStage.setScene(scene);
+
+        primaryStage.sizeToScene();
         primaryStage.show();
+
+        primaryStage.setMinWidth(primaryStage.getWidth());
+        primaryStage.setMinHeight(primaryStage.getHeight());
     }
 
     @Override

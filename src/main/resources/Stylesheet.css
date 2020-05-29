@@ -1,6 +1,6 @@
 
 .background {
-    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, rgb(255, 255, 255) 0%, rgb(217, 217, 217) 100%);
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, rgb(255, 255, 255) 0%, rgb(185, 222, 255) 100%);
     -fx-background-position: center center;
 }
 
@@ -12,21 +12,22 @@
     -fx-font-size: 30;
 }
 
-.cross {
-    .clock;
-    -fx-background-color: transparent;
-    -fx-font-size: 15;
-    -fx-alignment: center;
-}
-
-.top-bar {
-    -fx-background-color: #acacff;
-}
-
 .message-list {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
 }
 
 .message-frame {
-    -fx-border-radius: 5px;
-    -fx-background-color: #fffccf;
+    -fx-background-color: wheat;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+    -fx-border-color: gray;
+    -fx-border-width: 1px;
+}
+
+.message-header .message-frame{;
+}
+
+.avatar {
+
 }
