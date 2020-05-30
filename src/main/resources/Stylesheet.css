@@ -18,16 +18,28 @@
 }
 
 .message-frame {
-    -fx-background-color: wheat;
     -fx-background-radius: 15px;
     -fx-border-radius: 15px;
     -fx-border-color: gray;
-    -fx-border-width: 1px;
+    -fx-border-width: 0.5px;
 }
 
-.message-header .message-frame{;
+.message-header message-frame{;
 }
 
-.avatar {
+.avatar-frame {
+    -fx-border-radius: 50%;
 
+}
+
+.username-text {
+    -fx-font-family: "Century Gothic";
+    -fx-text-fill: #494949;
+    -fx-font-size: 25;
+}
+
+.channel-text {
+    -fx-font-family: "Century Gothic";
+    -fx-text-fill: #494949;
+    -fx-font-size: 20;
 }

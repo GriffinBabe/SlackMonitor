@@ -15,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.util.Duration;
 
 import java.net.URL;
@@ -51,7 +52,6 @@ public class MainWindowView extends EventEmitter implements Initializable {
             loader.setLocation(MonitorApplication.class.getResource("/MessageFrame.fxml"));
             AnchorPane message = loader.load();
             messageList.getChildren().add(message);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
