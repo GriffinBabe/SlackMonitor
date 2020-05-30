@@ -28,4 +28,7 @@ run {
     systemProperty "org.slf4j.simpleLogger.log.com.slack.api", System.getProperty("slackLogLevel")
 }
 
+test {
+}
+
 mainClassName = "eu.bestbrusselsulb.controller.MonitorApplication"

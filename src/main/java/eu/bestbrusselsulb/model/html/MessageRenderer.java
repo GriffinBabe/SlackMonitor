@@ -4,6 +4,7 @@ import eu.bestbrusselsulb.model.SlackMonitor;
 
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.regex.Pattern;
 
 /**
  * This class takes care of rendering in html code a slack formatted message
@@ -65,14 +66,15 @@ public class MessageRenderer {
         boolean matched = false;
         int firstMatchLine = 0;
         for (int l = 0; l < lines.length; l++) {
-            if (lines[l].matches(pattern)) {
+            boolean regexMatch = regexContains(lines[l], pattern);
+            if (regexMatch) {
                 if (!matched) firstMatchLine = l;
                 matched = true;
             }
-            if ((!lines[l].matches(pattern) && l == lines.length - 1) || matched) {
+            if ((!regexMatch && matched) || (regexMatch && l == lines.length - 1)) {
                 // no match but previous line was matched.
                 // this index is at the end of the last line
-                int indexEnd = findNthLineIndex(builder.toString(), l - 1) - 2;
+                int indexEnd = findNthLineIndex(builder.toString(), l) - 1;
                 // this index is at the beginning of the first line.
                 int indexBegin = findNthLineIndex(builder.toString(), firstMatchLine);
                 builder.insert(indexEnd, bottomTag);
@@ -85,6 +87,17 @@ public class MessageRenderer {
     }
 
     /**
+     * Checks if there is at least one occurrence of the Regular
+     * expression in the parameter text.
+     * @param text the text where we want to know if there is a match or not
+     * @param pattern the regular expression
+     * @return true if there is a match or more, false otherwhise.
+     */
+    private static boolean regexContains(String text, String pattern) {
+        return Pattern.compile(pattern).matcher(text).find();
+    }
+
+    /**
      * Finds the index of the beginning of the {@code line}'th line.
      * @param str the String to where to find.
      * @param line the line number we are interested in.
@@ -94,7 +107,7 @@ public class MessageRenderer {
         int lineCount = 0;
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == '\n') {
-                if (++lineCount == line) {
+                if (lineCount++ == line) {
                     return i + 1;
                 }
             }

@@ -56,7 +56,7 @@ public class MessageRendererTest extends TestCase {
                         "<div class=\"list\">1. Element one list two\n" +
                         "2. Element two list two</div>\n";
         try {
-            String replaceList = MessageRenderer.findListsAndQuotes(testMessage, "\\d{1,4}", "<div class=\"list\">", "</div>");
+            String replaceList = MessageRenderer.findListsAndQuotes(testMessage, "^\\d{1,}\\.", "<div class=\"list\">", "</div>");
 
             Assert.assertEquals(replaceList, expected);
         } catch (StringIndexOutOfBoundsException e) {
