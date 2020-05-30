@@ -69,11 +69,11 @@ public class MessageRenderer {
                 if (!matched) firstMatchLine = l;
                 matched = true;
             }
-            else if (matched) {
+            if ((!lines[l].matches(pattern) && l == lines.length - 1) || matched) {
                 // no match but previous line was matched.
                 // this index is at the end of the last line
                 int indexEnd = findNthLineIndex(builder.toString(), l - 1) - 2;
-                // this index is at the beginning od the first line.
+                // this index is at the beginning of the first line.
                 int indexBegin = findNthLineIndex(builder.toString(), firstMatchLine);
                 builder.insert(indexEnd, bottomTag);
                 builder.insert(indexBegin, topTag);
@@ -81,6 +81,7 @@ public class MessageRenderer {
                 matched = false;
             }
         }
+        return builder.toString();
     }
 
     /**
