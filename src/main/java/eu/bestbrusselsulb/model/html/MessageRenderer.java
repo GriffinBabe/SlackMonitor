@@ -39,6 +39,9 @@ public class MessageRenderer {
         html = findPairsAndReplace(html, "~", "<strike>", "</strike>");
         html = findPairsAndReplace(html, "```", "<div class=\"block-code\">", "</div>");
         html = findPairsAndReplace(html, "`", "<div class=\"code\">", "</div>");
+        html = findListsAndQuotes(html, "^(\\d{1,}\\.|•)", "<div class=\"list\">", "</div>");
+        html = findListsAndQuotes(html, "^(&gt|>).*", "<div class=\"quote\"", "</dib>");
+        html = formatLinks(html);
 
         this.htmlCode = html;
         return this.htmlCode;
@@ -46,6 +49,17 @@ public class MessageRenderer {
 
     public String getHtmlCode() {
         return this.htmlCode;
+    }
+
+    /**
+     * Uses regex to replace the slack formatted hyperlinks
+     * to html formatted hyperlinks.
+     * {@literal <http://youtube.com|my video!>} becomes {@literal <a href="http://youtube.com">my video!</a>}
+     * @param source the string were we want to convert the link
+     * @return the string with the converted link.
+     */
+    static String formatLinks(String source) {
+        return source.replace("<(.*)\\|(.*)>", "<a href=\"$1\">$2</a>");
     }
 
     /**
@@ -74,7 +88,7 @@ public class MessageRenderer {
             if ((!regexMatch && matched) || (regexMatch && l == lines.length - 1)) {
                 // no match but previous line was matched.
                 // this index is at the end of the last line
-                int indexEnd = findNthLineIndex(builder.toString(), l) - 1;
+                int indexEnd = findNthLineIndex(builder.toString(), (l == lines.length - 1) ? l + 1: l) - 1;
                 // this index is at the beginning of the first line.
                 int indexBegin = findNthLineIndex(builder.toString(), firstMatchLine);
                 builder.insert(indexEnd, bottomTag);
@@ -104,15 +118,15 @@ public class MessageRenderer {
      * @return the found index.
      */
     private static int findNthLineIndex(String str, int line) {
-        int lineCount = 0;
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == '\n') {
-                if (lineCount++ == line) {
-                    return i + 1;
-                }
-            }
+        String lines[] = str.split("\n");
+        if (line > lines.length || line < 0) {
+            return -1;
         }
-        return -1;
+        int index = 0;
+        for (int i = 0; i != line; i++) {
+            index += lines[i].length() + 1; // +1 for the '\n' character
+        }
+        return index;
     }
 
     /**

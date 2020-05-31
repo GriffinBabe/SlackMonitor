@@ -1,16 +1,13 @@
 package eu.bestbrusselsulb.controller;
 
+import eu.bestbrusselsulb.utils.EventEmitter.EventType;
 import eu.bestbrusselsulb.utils.EventListener;
 import eu.bestbrusselsulb.view.MainWindowView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import eu.bestbrusselsulb.utils.EventEmitter.EventType;
 
 public class MonitorApplication extends Application implements EventListener {
 

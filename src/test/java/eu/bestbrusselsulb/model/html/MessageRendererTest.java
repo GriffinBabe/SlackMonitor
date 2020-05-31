@@ -1,6 +1,5 @@
 package eu.bestbrusselsulb.model.html;
 
-import com.sun.javafx.scene.shape.MeshHelper;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
@@ -67,20 +66,23 @@ public class MessageRendererTest extends TestCase {
 
     @Test
     public void testHyperLinks() {
-        //TODO implement this test
-        // links are like this <link address|message>
-    }
-
-    @Test
-    public void testQuotes() {
-        // TODO implement this test
-        // quotes lines starts with &gt (or >) at the beginning of each line;
+        final String testMessage = "Hello man! Link <http://youtube.com|here>!";
+        final String expectedMessage = "Hello man! Link <a href=\"http://youtube.com\">here</a>!";
+        final String replaceMessage = MessageRenderer.formatLinks(testMessage);
+        Assert.assertEquals(replaceMessage, expectedMessage);
     }
 
     @Test
     public void testMentions() {
         // TODO implement this test
         // <ID> are mentions to other users.
+    }
+
+    @Test
+    public void testEmojis() {
+        final String testMessage = "Hello man! :smile: \n" +
+                "Hello:smile:\n" +
+                "Hello :smi le:";
     }
 
 }
