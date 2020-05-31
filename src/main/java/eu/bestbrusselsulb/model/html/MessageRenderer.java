@@ -2,8 +2,10 @@ package eu.bestbrusselsulb.model.html;
 
 import eu.bestbrusselsulb.model.SlackMonitor;
 
+import javax.swing.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -60,6 +62,32 @@ public class MessageRenderer {
      */
     static String formatLinks(String source) {
         return source.replace("<(.*)\\|(.*)>", "<a href=\"$1\">$2</a>");
+    }
+
+    /**
+     * Uses regex to find slack formatted emojis and
+     * replaces them in the string with their respective
+     * decimal value. Gathers the corresponsing name in
+     * the {@link EmojiData} class.
+     *
+     * @param source
+     * @return
+     */
+    static String formatEmojis(String source) {
+        final String emojiRegex = ":([^ ,:]*):";
+        Pattern pattern = Pattern.compile(emojiRegex);
+        Matcher matcher = pattern.matcher(source);
+
+        EmojiDatabase db = EmojiDatabase.getInstance();
+
+        // TODO Must fix this
+        matcher.replaceAll(matchResult ->{
+            String group = matchResult.group().replace(":", "");
+            String decimal = db.getDecimalEmoji(group); // get decimal value from name
+            if (decimal == null) return  matchResult.group();
+            else return String.format("&#%s", decimal);
+        });
+        return null;
     }
 
     /**

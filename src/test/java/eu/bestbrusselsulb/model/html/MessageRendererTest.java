@@ -6,10 +6,6 @@ import org.junit.Test;
 
 public class MessageRendererTest extends TestCase {
 
-    private String testMessage = "Hello I'm *Julia* from _BESTorino_! :smile: :+1: :flag-it:";
-    private String testMessage2 = "Hello I'm *Dimitri* from *Mother Russia*! :flag-ru:";
-    private String testMassage3 = "Hello I'm *Yannick* from ~BEST Brussels~ *BEST Brussels ULB*!";
-
     /**
      * Some examples of html generated code obtained
      * by converting slack tags by html tags.
@@ -82,7 +78,9 @@ public class MessageRendererTest extends TestCase {
     public void testEmojis() {
         final String testMessage = "Hello man! :smile: \n" +
                 "Hello:smile:\n" +
-                "Hello :smi le:";
+                "Hello :smi le:\n" +
+                "haha :smirk:";
+        MessageRenderer.formatEmojis(testMessage);
     }
 
 }

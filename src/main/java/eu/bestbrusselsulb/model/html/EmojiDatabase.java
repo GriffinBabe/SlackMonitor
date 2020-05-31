@@ -2,7 +2,6 @@ package eu.bestbrusselsulb.model.html;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.slack.api.model.admin.Emoji;
 import eu.bestbrusselsulb.controller.MonitorApplication;
 
 import java.io.FileReader;
@@ -55,18 +54,24 @@ public class EmojiDatabase {
      * @param data data to be parsed.
      */
     private void collectEmojiData(List<EmojiData> data) {
+        int collectedCount = 0;
         for (EmojiData emoji : data) {
-            // converts the unified decimal number to hexadecimal
+            // converts the unified hexadecimal number to decimal
             String unified = emoji.getUnified();
-            Integer unifiedInt = Integer.getInteger(unified);
-
-            if (unifiedInt == null) continue; // skips if the
-
-            String hexadecimal = Integer.toHexString(unifiedInt);
-            for (String name : emoji.getShortNames()) { // emoji can have multiple colon names.
-                database.put(name, hexadecimal);
+            Integer unifiedInt;
+            try {
+                unifiedInt = Integer.parseInt(unified, 16);
+                if (unifiedInt == null) continue; // skips if the
+            } catch (NumberFormatException e) {
+                continue;
             }
+
+            for (String name : emoji.getShortNames()) { // emoji can have multiple colon names.
+                database.put(name, unifiedInt.toString());
+            }
+            collectedCount++;
         }
+        System.out.format("Collected %d emojis from emoji.json.\n", collectedCount);
     }
 
     /**
@@ -79,7 +84,7 @@ public class EmojiDatabase {
      * @param colonName the colon name of the emoji
      * @return the hexadecimal code of the emoji.
      */
-    public String getHexadecimalEmoji(String colonName) {
+    public String getDecimalEmoji(String colonName) {
         return database.get(colonName);
     }
 
