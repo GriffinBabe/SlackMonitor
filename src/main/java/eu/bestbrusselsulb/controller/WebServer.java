@@ -4,11 +4,7 @@ import eu.bestbrusselsulb.model.SlackMonitor;
 import eu.bestbrusselsulb.utils.EventEmitter;
 import eu.bestbrusselsulb.utils.EventListener;
 import io.javalin.Javalin;
-
-import java.io.File;
-import java.net.URL;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
+import io.javalin.http.staticfiles.Location;
 
 class WebServer implements EventListener {
 
@@ -43,9 +39,9 @@ class WebServer implements EventListener {
 
     private void initializeWeb() {
         app = Javalin.create().start(PORT);
-        app.config.addStaticFiles(WebServer.class.getResource("/index.html").toString().replace("file:/" ,"").replace("/index.html", "/"));
+        app.config.addStaticFiles("/static", Location.CLASSPATH);
         app.get("/", (ctx) -> {
-            ctx.redirect("/index.html");
+            ctx.render("/static/index.html");
         });
     }
 

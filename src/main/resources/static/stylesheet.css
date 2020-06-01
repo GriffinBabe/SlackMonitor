@@ -1,0 +1,35 @@
+.background {
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(181,181,181,1) 100%);
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    font-family: "Century Gothic";
+}
+
+.clock-box{
+    position: absolute;
+    font-size: large;
+    width: 200px;
+    height: 100px;
+    right: 50px;
+    bottom: 50px;
+    background-color: #4970b4;
+    border-radius: 15px;
+    box-shadow: 1px 3px 5px 5px #686868;
+}
+
+.clock-time{
+    line-height: 300%;
+    text-align: center;
+    color: white;
+    font-size: xx-large;
+}
+
+.welcome-message {
+    position: relative;
+    text-align: center;
+    vertical-align: center;
+    font-size: 180px;
+    color: #767676
+}
