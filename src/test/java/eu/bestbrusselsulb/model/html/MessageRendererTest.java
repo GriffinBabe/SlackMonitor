@@ -69,12 +69,6 @@ public class MessageRendererTest extends TestCase {
     }
 
     @Test
-    public void testMentions() {
-        // TODO implement this test
-        // <ID> are mentions to other users.
-    }
-
-    @Test
     public void testEmojis() {
         final String testMessage = "Hello man! :smile: \n" +
                 "Hello:smile:\n" +

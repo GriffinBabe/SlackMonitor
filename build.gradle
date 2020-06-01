@@ -15,6 +15,8 @@ dependencies {
     implementation "com.slack.api:bolt-jetty:1.0.7"
     implementation "org.slf4j:slf4j-simple:1.7.30"
     implementation "com.github.spullara.mustache.java:compiler:0.8.12"
+    implementation 'io.javalin:javalin:3.8.0'
+    implementation 'org.thymeleaf:thymeleaf:3.0.9.RELEASE' // for html rendering
 }
 
 run {
@@ -22,7 +24,5 @@ run {
     systemProperty "org.slf4j.simpleLogger.log.com.slack.api", System.getProperty("slackLogLevel")
 }
 
-test {
-}
 
-// mainClassName = "eu.bestbrusselsulb.controller.MonitorApplication"
+mainClassName = "eu.bestbrusselsulb.controller.WebServer"

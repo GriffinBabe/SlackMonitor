@@ -2,12 +2,12 @@ package eu.bestbrusselsulb.model.html;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import eu.bestbrusselsulb.controller.MonitorApplication;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.net.http.WebSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +40,7 @@ public class EmojiDatabase {
     private void initializeData() throws IOException {
         // parses the data in the emoji.json class
         Gson gson = new Gson();
-        String url = MonitorApplication.class.getResource("/emoji.json").toString().replace("file:/", "");
+        String url = EmojiDatabase.class.getResource("/emoji.json").toString().replace("file:/", "");
         Reader reader = new FileReader(url);
 
         Type listType = new TypeToken<ArrayList<EmojiData>>(){}.getType();

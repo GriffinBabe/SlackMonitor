@@ -1,4 +1,6 @@
 package eu.bestbrusselsulb.model.handlers;
 
-public abstract class Handler {
+import eu.bestbrusselsulb.utils.EventEmitter;
+
+public abstract class Handler extends EventEmitter {
 }
