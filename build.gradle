@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group 'eu.bestbrusselsulb'
@@ -18,11 +17,6 @@ dependencies {
     implementation "com.github.spullara.mustache.java:compiler:0.8.12"
 }
 
-javafx {
-    version = "14"
-    modules = [ "javafx.base", "javafx.controls", "javafx.fxml", "javafx.web" ]
-}
-
 run {
     // gradle run -DslackLogLevel=debug
     systemProperty "org.slf4j.simpleLogger.log.com.slack.api", System.getProperty("slackLogLevel")
@@ -31,4 +25,4 @@ run {
 test {
 }
 
-mainClassName = "eu.bestbrusselsulb.controller.MonitorApplication"
+// mainClassName = "eu.bestbrusselsulb.controller.MonitorApplication"
