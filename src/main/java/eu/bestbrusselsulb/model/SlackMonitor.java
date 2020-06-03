@@ -22,8 +22,11 @@ public class SlackMonitor {
     public static String NEW_CONVERSATION_HANDLER = "newConversationHandler";
     public static String REACTION_HANDLER = "reactionHandler";
 
-    public void start() throws Exception {
+    public SlackMonitor() {
         this.initHandlers();
+    }
+
+    public void start() throws Exception {
         this.app = new App();
 
         this.app.event(MessageEvent.class, this.handlers.get(NEW_MESSAGE_HANDLER));

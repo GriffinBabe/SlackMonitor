@@ -23,7 +23,8 @@ public class EventEmitter {
 
     public enum EventType {
 
-        QUIT_COMMAND("Quit command.");
+        QUIT_COMMAND("Quit command."),
+        MESSAGE_RECEIVED("Message received.");
 
         private String name;
 
