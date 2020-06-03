@@ -7,42 +7,50 @@ var messageSpace = document.getElementById("message-space");
 // sets the web socket to receive messages
 var socket = null;
 
-const socket_address = "ws://localhost:2700/websocket/message-socket";
+// test message data
+const testMessage = {
+    avatar: "../default_avatar.png",
+    avatar: "darius.couchard",
+    channel: "#bullshit",
+    content: "Hello :)"
+};
+
+const socketAddress = "ws://localhost:2700/websocket/message-socket";
 
 try {
-    socket = new WebSocket(socket_address);
+    socket = new WebSocket(socketAddress);
 } catch (exception) {
-    alert("Couldn't initialize websocket with server: "+exception);
+    // alert("Couldn't initialize websocket with server: "+exception);
     console.error(exception);
 }
 
 socket.onerror = function(error) {
     console.error(error);
-    alert("Error while loading websocket.");
+    // alert("Error while loading websocket.");
 }
 
 socket.onopen = function(event) {
-    console.log("Opened connection to server " + socket_address);
+    console.log("Opened connection to server " + socketAddress);
 
     this.onclose = function (event) {
         console.log("WebSocket closed. Can't receive message anymore.");
-        alert("WebSocket closed. Can't receive message anymore.");
+        // alert("WebSocket closed. Can't receive message anymore.");
     }
 
     this.onmessage = function (event) {
         console.log("Received message: "+event.data);
+        addMessage(event.data);
     }
 
 }
 
-// loads the message html code sets it to messageTemplate
-document.addEventListener('readystatechange', () => {
-    fetch('message.html')
-        .then(
-            data => data.text())
-        .then(
-            html => messageTemplate = html
-        );
+// prepares the message template document and adds a test one.
+fetch('message.html')
+    .then(
+        data => data.text())
+    .then( function(html) {
+        messageTemplate = new DOMParser().parseFromString(html, "text/xml");
+        addMessage(testMessage);
 });
 
 // Changes the time on the bottom left clock
@@ -61,13 +69,16 @@ function addZeroBefore(n) {
 
 // adds a message in the html document
 function addMessage(data) {
-    let copy = Object.assign({}, messageTemplate);
-    messageTemplate.getElementById("avatar").src = data.avatar;
-    messageTemplate.getElementById("channel").innerText = data.channel;
-    messageTemplate.getElementById("username").innerText = data.username;
-    messageTemplate.getElementById("content-message").innerHTML = data.content;
+    let copy = messageTemplate.cloneNode(true);
 
-    messageSpace.innerHTML += messageTemplate;
+    copy.getElementById("avatar").src = data.avatar;
+    copy.getElementById("channel").innerText = data.channel;
+    copy.getElementById("username").innerText = data.username;
+    copy.getElementById("content-message").innerHTML = data.content;
+
+    console.log(copy);
+    console.log(messageSpace)
+    messageSpace.innerHTML += copy.innerHTML;
 }
 
 // Message data class
