@@ -1,10 +1,12 @@
 .background {
+    z-index: 1;
     background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(181,181,181,1) 100%);
     margin: 0;
     height: 100%;
     min-height: 100%;
     overflow: hidden;
     font-family: "Century Gothic";
+
 }
 
 .clock-box{
@@ -31,5 +33,96 @@
     text-align: center;
     vertical-align: center;
     font-size: 180px;
-    color: #767676
+    background: linear-gradient(rgb(55, 135, 255) 0%, rgb(89, 163, 47) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.message-box {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    border-radius: 20px;
+    background: rgb(255,181,181);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.overlay-background {
+    position: fixed;
+    z-index: 1;
+    display: block;
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    bottom: 10%;
+    left: 10%;
+    right: 10%;
+    border-radius: 15px;
+    border-color: red;
+    border-width: 1px;
+    background-color: rgba(255, 255, 255, 0.31);
+    backdrop-filter: blur(15px);
+
+}
+
+.header-box {
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    left: 2%;
+    height: 25%;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+
+.avatar {
+    position: fixed;
+    border: 1px solid;
+    border-color: #8d8d8d;
+    border-width: 1px;
+    top: 4%;
+    left: 5%;
+    width: 10%;
+    height: 20%;
+    border-radius: 50%;
+}
+
+.username {
+    position: fixed;
+    top: 5%;
+    left: 18%;
+    font-size: 50px;
+    font-family: "Bitstream Vera Sans Mono";
+    color: #474747;
+}
+
+.channel {
+    position: fixed;
+    top: 17%;
+    left: 18%;
+    font-size: 30px;
+    font-family: "Bitstream Vera Sans Mono";
+    color: #6c6c6c;
+}
+
+.content-box {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.25);
+    top: 30%;
+    right: 2%;
+    left: 2%;
+    height: 65%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.content-message {
+    position: fixed;
+    top: 35%;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    font-size: large;
+    overflow: hidden;
+    font-family: "Century Gothic";
 }
