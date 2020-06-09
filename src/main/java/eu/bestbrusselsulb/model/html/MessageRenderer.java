@@ -75,7 +75,8 @@ public class MessageRenderer {
      * @return
      */
     static String formatEmojis(String source) {
-        final String emojiRegex = ":([^ ,:]*):";
+        final String emojiRegex = ":([^ ,:,-]*):";
+        System.out.println(source);
         Pattern pattern = Pattern.compile(emojiRegex);
         Matcher matcher = pattern.matcher(source);
 
@@ -88,7 +89,7 @@ public class MessageRenderer {
             if (decimal == null) return  matchResult.group();
             else return String.format("&#%s", decimal);
         });
-        return null;
+        return source;
     }
 
     /**
