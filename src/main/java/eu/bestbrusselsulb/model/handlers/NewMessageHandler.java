@@ -19,7 +19,7 @@ public class NewMessageHandler extends EventHandler {
     public Response apply(EventsApiPayload event, EventContext context) throws IOException, SlackApiException {
         MessageEvent ev = (MessageEvent) event.getEvent();
         String messageText = ev.getText();
-        // String messageId = ev.getClientMsgId();
+        String messageId = ev.getClientMsgId();
         String channelId = ev.getChannel();
         String userId = ev.getUser();
 
@@ -41,7 +41,8 @@ public class NewMessageHandler extends EventHandler {
                 user.getProfile().getImage72(),
                 user.getName(),
                 conversation.getName(),
-                renderer.getHtmlCode());
+                renderer.getHtmlCode(),
+                messageId);
 
         emit(EventType.MESSAGE_RECEIVED, messageData);
 

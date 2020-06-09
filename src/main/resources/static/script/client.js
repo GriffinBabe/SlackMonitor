@@ -1,66 +1,74 @@
 // message Html template
 var messageTemplate = null;
 
-// reference to the <div> containing all the messages
-var messageSpace = document.getElementById("message-space");
+var messageSpace = null;
 
-// sets the web socket to receive messages
-var socket = null;
+var frontMessageId = null;
 
 // test message data
 const testMessage = {
     avatar: "../default_avatar.png",
-    avatar: "darius.couchard",
+    username: "darius.couchard",
     channel: "#bullshit",
-    content: "Hello :)"
+    content: "Hello :)",
+    messageId: 1,
 };
+
+// sets the web socket to receive messages
+var socket = null;
 
 const socketAddress = "ws://localhost:2700/websocket/message-socket";
 
-try {
-    socket = new WebSocket(socketAddress);
-} catch (exception) {
-    // alert("Couldn't initialize websocket with server: "+exception);
-    console.error(exception);
-}
+// Page initialization
+window.addEventListener('DOMContentLoaded', event => {
+    // sets reference to message space in the document
+    messageSpace = document.getElementById("messages");
 
-socket.onerror = function(error) {
-    console.error(error);
-    // alert("Error while loading websocket.");
-}
+    // prepares the message template document and adds a test one.
+    fetch('message.html')
+        .then(
+            data => data.text())
+        .then( function(html) {
+            messageTemplate = new DOMParser().parseFromString(html, "text/xml");
+        });
 
-socket.onopen = function(event) {
-    console.log("Opened connection to server " + socketAddress);
-
-    this.onclose = function (event) {
-        console.log("WebSocket closed. Can't receive message anymore.");
-        // alert("WebSocket closed. Can't receive message anymore.");
+    // prepares the websocket to receive events.
+    try {
+        socket = new WebSocket(socketAddress);
+    } catch (exception) {
+        // alert("Couldn't initialize websocket with server: "+exception);
+        console.error(exception);
     }
 
-    this.onmessage = function (event) {
-        console.log("Received message: "+event.data);
-        addMessage(event.data);
-    }
+    socket.onerror = function(error) {
+        console.error(error);
+    };
 
-}
+    socket.onopen = function(event) {
+        console.log("Opened connection to server " + socketAddress);
 
-// prepares the message template document and adds a test one.
-fetch('message.html')
-    .then(
-        data => data.text())
-    .then( function(html) {
-        messageTemplate = new DOMParser().parseFromString(html, "text/xml");
-        addMessage(testMessage);
+        this.onclose = function (event) {
+            console.log("WebSocket closed. Can't receive message anymore.");
+        };
+
+        this.onmessage = function (event) {
+            console.log("Received message: "+event.data);
+            addMessage(event.data);
+        }
+
+    };
+
+    // Changes the time on the bottom left clock
+    window.setInterval(function() {
+        var time = new Date();
+        document.getElementById("clock").innerText =
+            addZeroBefore(time.getHours())+":"+
+            addZeroBefore(time.getMinutes())+":"+
+            addZeroBefore(time.getSeconds());
+    }, 1000);
+
 });
 
-// Changes the time on the bottom left clock
-window.setInterval(function() {
-    var time = new Date();
-    document.getElementById("clock").innerText =
-        addZeroBefore(time.getHours())+":"+
-        addZeroBefore(time.getMinutes())+":"+
-        addZeroBefore(time.getSeconds());
-}, 1000);
 
 // stolen from https://stackoverflow.com/questions/18889548/javascript-change-gethours-to-2-digit
 function addZeroBefore(n) {
@@ -69,16 +77,31 @@ function addZeroBefore(n) {
 
 // adds a message in the html document
 function addMessage(data) {
+    // removes the old front message
+    if (frontMessageId != null) {
+        var oldFrontMessage = document.getElementById(frontMessageId);
+        console.log(oldFrontMessage);
+        oldFrontMessage.parentNode.removeChild(oldFrontMessage);
+        frontMessageId = null;
+    }
+
+    const message = JSON.parse(data);
     let copy = messageTemplate.cloneNode(true);
 
-    copy.getElementById("avatar").src = data.avatar;
-    copy.getElementById("channel").innerText = data.channel;
-    copy.getElementById("username").innerText = data.username;
-    copy.getElementById("content-message").innerHTML = data.content;
+    copy.getElementById("message-id").setAttribute("id", message.messageId);
+    copy.getElementById("avatar").setAttribute('src', message.avatar);
+    copy.getElementById("channel").innerHTML = "#" + message.channel;
+    copy.getElementById("username").innerHTML = message.username;
+    copy.getElementById("content-message").innerHTML = message.content;
 
-    console.log(copy);
-    console.log(messageSpace)
-    messageSpace.innerHTML += copy.innerHTML;
+    frontMessageId = message.messageId;
+    messageSpace.innerHTML += copy.documentElement.innerHTML;
+}
+
+function adjustFontSize(content) {
+    let innerText = content.innerHTML.repeat(220);
+    // content.getElementsByClassName("content-message").fontSize = 20;
+    content.fontSize = "100px";
 }
 
 // Message data class

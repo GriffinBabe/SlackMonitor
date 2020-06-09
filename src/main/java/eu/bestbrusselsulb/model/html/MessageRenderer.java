@@ -36,7 +36,8 @@ public class MessageRenderer {
     public String generate() {
         String html;
         // first replaces the common tags
-        html = findPairsAndReplace(message, "*", "<b>", "</b>");
+        html = formatEmojis(message);
+        html = findPairsAndReplace(html, "*", "<b>", "</b>");
         html = findPairsAndReplace(html, "_", "<i>", "</i>");
         html = findPairsAndReplace(html, "~", "<strike>", "</strike>");
         html = findPairsAndReplace(html, "```", "<div class=\"block-code\">", "</div>");

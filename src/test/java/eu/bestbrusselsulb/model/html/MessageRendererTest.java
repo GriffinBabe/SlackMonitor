@@ -74,7 +74,8 @@ public class MessageRendererTest extends TestCase {
                 "Hello:smile:\n" +
                 "Hello :smi le:\n" +
                 "haha :smirk:";
-        MessageRenderer.formatEmojis(testMessage);
+        String formatted = MessageRenderer.formatEmojis(testMessage);
+        System.out.println(formatted);
     }
 
 }

@@ -10,11 +10,13 @@ public class MessageData {
     private String username;
     private String channel;
     private String content;
+    private String messageId;
 
-    public MessageData(String avatar, String username, String channel, String content) {
+    public MessageData(String avatar, String username, String channel, String content, String messageId) {
         this.avatar = avatar;
         this.username = username;
         this.channel = channel;
         this.content = content;
+        this.messageId = messageId;
     }
 }
