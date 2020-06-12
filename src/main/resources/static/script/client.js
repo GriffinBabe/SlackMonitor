@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', event => {
         .then(
             data => data.text())
         .then( function(html) {
-            messageTemplate = new DOMParser().parseFromString(html, "text/xml");
+            messageTemplate = new DOMParser().parseFromString(html, "text/html");
         });
 
     // prepares the websocket to receive events.
@@ -92,6 +92,8 @@ function addMessage(data) {
     copy.getElementById("avatar").setAttribute('src', message.avatar);
     copy.getElementById("channel").innerHTML = "#" + message.channel;
     copy.getElementById("username").innerHTML = message.username;
+    console.log(message.content);
+
     copy.getElementById("content-message").innerHTML = message.content;
 
     frontMessageId = message.messageId;

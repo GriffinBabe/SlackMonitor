@@ -45,6 +45,9 @@ public class MessageRenderer {
         html = findListsAndQuotes(html, "^(\\d{1,}\\.|•)", "<div class=\"list\">", "</div>");
         html = findListsAndQuotes(html, "^(&gt|>).*", "<div class=\"quote\"", "</dib>");
         html = formatLinks(html);
+        html = addParagraphTags(html);
+        html = addLinebreakTags(html);
+
 
         this.htmlCode = html;
         return this.htmlCode;
@@ -52,6 +55,21 @@ public class MessageRenderer {
 
     public String getHtmlCode() {
         return this.htmlCode;
+    }
+
+    static String addLinebreakTags(String source) {
+        return source.replaceAll("\n", "<br>\n");
+    }
+
+    /**
+     * Adds the HTML paragraph tag at the
+     * beginning and end of the String.
+     *
+     * @param source, the message to format
+     * @return the formatted message
+     */
+    static String addParagraphTags(String source) {
+        return String.format("<p>%s</p>", source);
     }
 
     /**
@@ -62,7 +80,19 @@ public class MessageRenderer {
      * @return the string with the converted link.
      */
     static String formatLinks(String source) {
-        return source.replace("<(.*)\\|(.*)>", "<a href=\"$1\">$2</a>");
+        String linkRegex = "<(.*)\\|(.*)>";
+        Pattern pattern = Pattern.compile(linkRegex);
+        Matcher matcher = pattern.matcher(source);
+
+        while (matcher.find()) {
+            String link = matcher.group(1);
+            String description = matcher.group(2);
+            String slackFormat = String.format("<%s|%s>", link, description);
+            String htmlFinal = String.format("<a href=\"%s\">%s</a>", link, description);
+            source = source.replaceFirst(slackFormat, htmlFinal);
+        }
+
+        return source;
     }
 
     /**
@@ -75,20 +105,17 @@ public class MessageRenderer {
      * @return
      */
     static String formatEmojis(String source) {
-        final String emojiRegex = ":([^ ,:,-]*):";
-        System.out.println(source);
+        String emojiRegex = ":([^ ,:-]*):";
         Pattern pattern = Pattern.compile(emojiRegex);
         Matcher matcher = pattern.matcher(source);
 
         EmojiDatabase db = EmojiDatabase.getInstance();
+        while (matcher.find()) {
+            String colonEmoji = String.format(":%s:", matcher.group(1));
+            String decimalEmoji = String.format("&#%s;", db.getDecimalEmoji(matcher.group(1)));
+            source = source.replaceAll(colonEmoji, decimalEmoji);
+        }
 
-        // TODO Must fix this
-        matcher.replaceAll(matchResult ->{
-            String group = matchResult.group().replace(":", "");
-            String decimal = db.getDecimalEmoji(group); // get decimal value from name
-            if (decimal == null) return  matchResult.group();
-            else return String.format("&#%s", decimal);
-        });
         return source;
     }
 
